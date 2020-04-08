@@ -1,4 +1,4 @@
-package com.globant.counter.mvvm.viewmodel.states
+package com.globant.counter.mvi.viewmodel.states
 
 data class CounterData(
     val state: CounterState = CounterState.INITIAL,

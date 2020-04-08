@@ -4,9 +4,9 @@ import androidx.lifecycle.Observer
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
-import com.globant.counter.mvvm.viewmodel.MainActivityViewModel
-import com.globant.counter.mvvm.viewmodel.states.CounterData
-import com.globant.counter.mvvm.viewmodel.states.CounterState
+import com.globant.counter.mvi.viewmodel.MainActivityViewModel
+import com.globant.counter.mvi.viewmodel.states.CounterData
+import com.globant.counter.mvi.viewmodel.states.CounterState
 import kotlinx.android.synthetic.main.activity_main.countBtnDec
 import kotlinx.android.synthetic.main.activity_main.countBtnInc
 import kotlinx.android.synthetic.main.activity_main.countLabel

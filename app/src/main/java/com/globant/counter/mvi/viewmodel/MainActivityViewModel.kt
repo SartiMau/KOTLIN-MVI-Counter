@@ -1,10 +1,10 @@
-package com.globant.counter.mvvm.viewmodel
+package com.globant.counter.mvi.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.globant.counter.mvvm.model.CountModel
-import com.globant.counter.mvvm.viewmodel.states.CounterData
-import com.globant.counter.mvvm.viewmodel.states.CounterState
+import com.globant.counter.mvi.model.CountModel
+import com.globant.counter.mvi.viewmodel.states.CounterData
+import com.globant.counter.mvi.viewmodel.states.CounterState
 
 class MainActivityViewModel : ViewModel() {
 
