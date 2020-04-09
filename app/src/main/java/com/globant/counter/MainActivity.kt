@@ -37,8 +37,4 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.mainState.observe(this, stateObserver)
     }
-
-    private fun showToast(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-    }
 }
