@@ -1,57 +1,46 @@
 package com.globant.counter
 
-import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.activity_main.countBtnDec
-import kotlinx.android.synthetic.main.activity_main.countBtnInc
-import kotlinx.android.synthetic.main.activity_main.countLabel
-import kotlinx.android.synthetic.main.activity_main.resetBtn
+import com.globant.counter.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainActivityViewModel
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
         viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
-        viewModel.getValue().observe(this, Observer { updateUI(it) })
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        // Move to Data binding {
-        initListeners()
-        viewModel.sendIntent(CounterIntent.InitialIntent)
-        // }
+        val actor = MviActor(viewModel::takeIntent)
+        binding.actor = actor
+        binding.notifyPropertyChanged(BR.actor)
+
+        observeData(binding, viewModel)
     }
 
-    // Move to Data binding {
-    private fun initListeners() {
-        countBtnInc.setOnClickListener {
-            viewModel.sendIntent(CounterIntent.IncrementIntent)
-        }
-        countBtnDec.setOnClickListener {
-            viewModel.sendIntent(CounterIntent.DecrementIntent)
-        }
-        resetBtn.setOnClickListener {
-            viewModel.sendIntent(CounterIntent.ResetIntent)
-        }
-    }
-    // }
+    private fun observeData(binding: ActivityMainBinding, viewModel: MainActivityViewModel) {
+        val stateObserver = Observer<CounterState> {
+            // Binds state changes to the view.
+            binding.mainState = it
+            binding.notifyPropertyChanged(BR.mainState)
 
-    private fun updateUI(counterState: CounterState) {
-        // Move to Data binding {
-        countLabel.text = counterState.counterCurrentValue.toString()
-        // }
-        when (counterState.counterOperation) {
-            CounterOperation.INC -> showToast(getString(R.string.main_activity_toast_incremented_text))
-            CounterOperation.DEC -> showToast(getString(R.string.main_activity_toast_decremented_text))
-            CounterOperation.RST -> showToast(getString(R.string.main_activity_toast_reset_text))
-            else -> {
+            when (it.counterOperation) {
+                CounterOperation.INC -> showToast(getString(R.string.main_activity_toast_incremented_text))
+                CounterOperation.DEC -> showToast(getString(R.string.main_activity_toast_decremented_text))
+                CounterOperation.RST -> showToast(getString(R.string.main_activity_toast_reset_text))
+                else -> {
+                }
             }
         }
+
+        viewModel.getValue().observe(this, stateObserver)
     }
 
     private fun showToast(text: String) {

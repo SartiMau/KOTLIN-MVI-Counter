@@ -13,7 +13,8 @@ class MainActivityViewModel : ViewModel() {
     }
 
     // Interpreter
-    fun sendIntent(intent: CounterIntent) {
+    fun takeIntent(intent: CounterIntent) {
+        /** Takes action from the Activity and process it **/
         when (intent) {
             CounterIntent.InitialIntent -> if (!initialized) {
                 processor(CounterAction.InitValue)
@@ -27,6 +28,7 @@ class MainActivityViewModel : ViewModel() {
 
     // Processor
     private fun processor(action: CounterAction) {
+
         val result = when (action) {
             is CounterAction.InitValue -> CounterResult.InitValueResult()
             is CounterAction.IncValue -> CounterResult.IncResult(CounterState(action.value))

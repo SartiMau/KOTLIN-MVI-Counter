@@ -1,34 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/countLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_main_activity_starting_count_label_value"
-        android:textSize="40sp" />
+    <data>
+        <variable
+            name="actor"
+            type="com.globant.counter.MviActor" />
 
-    <Button
-        android:id="@+id/countBtnInc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_main_activity_count_inc_btn_label" />
+        <variable
+            name="mainState"
+            type="com.globant.counter.CounterState" />
+    </data>
 
-    <Button
-        android:id="@+id/countBtnDec"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_main_activity_count_dec_btn_label" />
+    <LinearLayout
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/resetBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_main_activity_reset_btn_label" />
+        <TextView
+            android:id="@+id/countLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{mainState.currentValueString}"
+            android:textSize="40sp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/emoticon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:text="@{mainState.counterOperation}"
+            android:textSize="40sp" />
+        <Button
+            android:id="@+id/countBtnInc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_main_activity_count_inc_btn_label"
+            android:onClick="@{() -> actor.incrementClicked()}"/>
+
+        <Button
+            android:id="@+id/countBtnDec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_main_activity_count_dec_btn_label"
+            android:onClick="@{() -> actor.decrementClicked()}"/>
+
+        <Button
+            android:id="@+id/resetBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_main_activity_reset_btn_label"
+            android:onClick="@{() -> actor.resetClicked()}"/>
+
+    </LinearLayout>
+</layout>
