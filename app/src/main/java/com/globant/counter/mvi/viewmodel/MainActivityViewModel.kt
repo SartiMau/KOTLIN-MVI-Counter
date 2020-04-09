@@ -2,32 +2,50 @@ package com.globant.counter.mvi.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.globant.counter.mvi.model.CountModel
+import com.globant.counter.mvi.MviAction
 import com.globant.counter.mvi.viewmodel.states.CounterData
 import com.globant.counter.mvi.viewmodel.states.CounterState
 
 class MainActivityViewModel : ViewModel() {
 
-    private val model = CountModel()
+    private val mutableMainState: MutableLiveData<CounterData> = MutableLiveData()
 
-    private val mutableLiveData: MutableLiveData<CounterData> = MutableLiveData()
+    val mainState: MutableLiveData<CounterData>
+        get() {
+            return mutableMainState
+        }
 
-    fun getValue(): MutableLiveData<CounterData> {
-        return mutableLiveData
+    fun takeAction(action: MviAction) {
+        /** Takes action from the Activity and process it **/
+        when (action) {
+            MviAction.IncrementAction -> handleIncrement()
+            MviAction.DecrementAction -> handleDecrement()
+            MviAction.ResetAction -> handleReset()
+        }
     }
 
-    fun resetValue() {
-        model.reset()
-        mutableLiveData.value = CounterData(CounterState.INITIAL)
+    private fun handleIncrement() {
+        val currentValue = mutableMainState.value?.copy() ?: CounterData()
+        val newCounterData = CounterData(value = (currentValue.value.toInt() + 1).toString(), state = CounterState.INC)
+        mutableMainState.postValue(newCounterData)
     }
 
-    fun incValue() {
-        model.inc()
-        mutableLiveData.value = CounterData(CounterState.INC, model.count)
+    private fun handleDecrement() {
+        val currentValue = mutableMainState.value?.copy() ?: CounterData()
+        val newCounterData = CounterData(value = (currentValue.value.toInt() - 1).toString(), state = CounterState.DEC)
+        mutableMainState.postValue(newCounterData)
     }
 
-    fun decValue() {
-        model.dec()
-        mutableLiveData.value = CounterData(CounterState.DEC, model.count)
+    private fun handleReset() {
+        mutableMainState.postValue(CounterData(value = "0", state = CounterState.INITIAL))
+    }
+
+    private fun update(newState: CounterData) {
+        mutableMainState.postValue(newState)
+        when (newState) {
+            // is MviState.Effect -> _effect.postValue(newState)
+            // is MviState.Loading,
+            // is MviState.Content -> _state.postValue(newState)
+        }
     }
 }

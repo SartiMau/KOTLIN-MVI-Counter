@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -29,6 +31,10 @@ android {
             includeAndroidResources = true
         }
     }
+
+    dataBinding {
+        enabled true
+    }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
@@ -42,8 +48,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:' + rootProject.appCompatVersion
     implementation 'androidx.constraintlayout:constraintlayout:' + rootProject.constraintLayoutVersion
     implementation 'com.jakewharton.rxbinding3:rxbinding:' + rootProject.rxBindingVersion
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:' + rootProject.androidXLifecycleVersion
-    implementation 'androidx.lifecycle:lifecycle-livedata:+' + rootProject.androidXLifecycleVersion
+    implementation 'androidx.lifecycle:lifecycle-extensions:' + rootProject.androidXLifecycleVersion
 
     // Testing-only dependencies
     androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

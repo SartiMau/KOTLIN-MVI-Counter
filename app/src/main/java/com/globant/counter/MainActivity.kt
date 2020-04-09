@@ -4,54 +4,46 @@ import androidx.lifecycle.Observer
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
+import com.globant.counter.databinding.ActivityMainBinding
+import com.globant.counter.mvi.MviActor
 import com.globant.counter.mvi.viewmodel.MainActivityViewModel
 import com.globant.counter.mvi.viewmodel.states.CounterData
-import com.globant.counter.mvi.viewmodel.states.CounterState
-import kotlinx.android.synthetic.main.activity_main.countBtnDec
-import kotlinx.android.synthetic.main.activity_main.countBtnInc
-import kotlinx.android.synthetic.main.activity_main.countLabel
-import kotlinx.android.synthetic.main.activity_main.resetBtn
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainActivityViewModel = MainActivityViewModel()
+    private lateinit var viewModel: MainActivityViewModel
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        viewModel.getValue().observe(this, Observer { updateUI(it) })
-        initListeners()
+        val actor = MviActor(viewModel::takeAction)
+        binding.actor = actor
+        binding.notifyPropertyChanged(BR.actor)
+
+        observeData(binding, viewModel)
     }
 
-    private fun initListeners() {
-        countBtnInc.setOnClickListener {
-            viewModel.incValue()
-        }
-        countBtnDec.setOnClickListener {
-            viewModel.decValue()
-        }
-        resetBtn.setOnClickListener {
-            viewModel.resetValue()
-        }
-    }
+    private fun observeData(binding: ActivityMainBinding, viewModel: MainActivityViewModel) {
+        val stateObserver = Observer<CounterData> {
+            // Binds state changes to the view.
+            binding.mainState = it
+            binding.notifyPropertyChanged(BR.mainState)
 
-    private fun updateUI(it: CounterData?) {
-        when (it?.state) {
-            CounterState.INITIAL -> {
-                countLabel.text = getString(R.string.txt_main_activity_starting_count_label_value)
-                showToast(getString(R.string.main_activity_toast_reset_text))
+            /*
+            when (it.state) {
+                CounterState.INITIAL ->  showToast(getString(R.string.main_activity_toast_reset_text))
+                CounterState.INC -> showToast(getString(R.string.main_activity_toast_incremented_text))
+                CounterState.DEC -> showToast(getString(R.string.main_activity_toast_decremented_text))
             }
-            CounterState.INC -> {
-                countLabel.text = it.value.toString()
-                showToast(getString(R.string.main_activity_toast_incremented_text))
-            }
-            CounterState.DEC -> {
-                countLabel.text = it.value.toString()
-                showToast(getString(R.string.main_activity_toast_decremented_text))
-            }
-            else -> countLabel.text = it?.value.toString()
+             */
         }
+
+        viewModel.mainState.observe(this, stateObserver)
     }
 
     private fun showToast(text: String) {

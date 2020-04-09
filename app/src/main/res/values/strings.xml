@@ -7,4 +7,6 @@
     <string name="main_activity_toast_decremented_text">Decremented</string>
     <string name="main_activity_toast_incremented_text">Incremented</string>
     <string name="main_activity_toast_reset_text">Reset</string>
+    <string name="thumbs_up">%d 👍</string>
+    <string name="thumbs_down">%d ️👎</string>
 </resources>

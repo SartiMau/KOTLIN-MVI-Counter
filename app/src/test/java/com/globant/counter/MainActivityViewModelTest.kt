@@ -18,16 +18,16 @@ class MainActivityViewModelTest {
 
     @Test
     fun initialStateTest() {
-        assert(viewModel.getValue().value == null)
+        assert(viewModel.mainState.value == null)
     }
 
     @Test
     fun onPressResetAfterInitialStateTest() {
         viewModel.resetValue()
 
-        assert(viewModel.getValue().value != null)
-        assert(viewModel.getValue().value?.state == CounterState.INITIAL)
-        assert(viewModel.getValue().value?.value == ZERO)
+        assert(viewModel.mainState.value != null)
+        assert(viewModel.mainState.value?.state == CounterState.INITIAL)
+        assert(viewModel.mainState.value?.value == ZERO)
     }
 
     @Test
@@ -35,9 +35,9 @@ class MainActivityViewModelTest {
         viewModel.incValue()
         viewModel.resetValue()
 
-        assert(viewModel.getValue().value != null)
-        assert(viewModel.getValue().value?.state == CounterState.INITIAL)
-        assert(viewModel.getValue().value?.value == ZERO)
+        assert(viewModel.mainState.value != null)
+        assert(viewModel.mainState.value?.state == CounterState.INITIAL)
+        assert(viewModel.mainState.value?.value == ZERO)
     }
 
     @Test
@@ -45,27 +45,27 @@ class MainActivityViewModelTest {
         viewModel.decValue()
         viewModel.resetValue()
 
-        assert(viewModel.getValue().value != null)
-        assert(viewModel.getValue().value?.state == CounterState.INITIAL)
-        assert(viewModel.getValue().value?.value == ZERO)
+        assert(viewModel.mainState.value != null)
+        assert(viewModel.mainState.value?.state == CounterState.INITIAL)
+        assert(viewModel.mainState.value?.value == ZERO)
     }
 
     @Test
     fun onPressIncAfterInitialStateTest() {
         viewModel.incValue()
 
-        assert(viewModel.getValue().value != null)
-        assert(viewModel.getValue().value?.state == CounterState.INC)
-        assert(viewModel.getValue().value?.value == ONE)
+        assert(viewModel.mainState.value != null)
+        assert(viewModel.mainState.value?.state == CounterState.INC)
+        assert(viewModel.mainState.value?.value == ONE)
     }
 
     @Test
     fun onPressDecAfterInitialStateTest() {
         viewModel.decValue()
 
-        assert(viewModel.getValue().value != null)
-        assert(viewModel.getValue().value?.state == CounterState.DEC)
-        assert(viewModel.getValue().value?.value == MINUS_ONE)
+        assert(viewModel.mainState.value != null)
+        assert(viewModel.mainState.value?.state == CounterState.DEC)
+        assert(viewModel.mainState.value?.value == MINUS_ONE)
     }
 
     @Test
@@ -73,9 +73,9 @@ class MainActivityViewModelTest {
         viewModel.incValue()
         viewModel.decValue()
 
-        assert(viewModel.getValue().value != null)
-        assert(viewModel.getValue().value?.state == CounterState.DEC)
-        assert(viewModel.getValue().value?.value == ZERO)
+        assert(viewModel.mainState.value != null)
+        assert(viewModel.mainState.value?.state == CounterState.DEC)
+        assert(viewModel.mainState.value?.value == ZERO)
     }
 
     @Test
@@ -83,9 +83,9 @@ class MainActivityViewModelTest {
         viewModel.decValue()
         viewModel.incValue()
 
-        assert(viewModel.getValue().value != null)
-        assert(viewModel.getValue().value?.state == CounterState.INC)
-        assert(viewModel.getValue().value?.value == ZERO)
+        assert(viewModel.mainState.value != null)
+        assert(viewModel.mainState.value?.state == CounterState.INC)
+        assert(viewModel.mainState.value?.value == ZERO)
     }
 
     companion object {
