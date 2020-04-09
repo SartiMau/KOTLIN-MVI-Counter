@@ -39,13 +39,4 @@ class MainActivityViewModel : ViewModel() {
     private fun handleReset() {
         mutableMainState.postValue(CounterData(value = "0", state = CounterState.INITIAL))
     }
-
-    private fun update(newState: CounterData) {
-        mutableMainState.postValue(newState)
-        when (newState) {
-            // is MviState.Effect -> _effect.postValue(newState)
-            // is MviState.Loading,
-            // is MviState.Content -> _state.postValue(newState)
-        }
-    }
 }

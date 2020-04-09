@@ -33,14 +33,6 @@ class MainActivity : AppCompatActivity() {
             // Binds state changes to the view.
             binding.mainState = it
             binding.notifyPropertyChanged(BR.mainState)
-
-            /*
-            when (it.state) {
-                CounterState.INITIAL ->  showToast(getString(R.string.main_activity_toast_reset_text))
-                CounterState.INC -> showToast(getString(R.string.main_activity_toast_incremented_text))
-                CounterState.DEC -> showToast(getString(R.string.main_activity_toast_decremented_text))
-            }
-             */
         }
 
         viewModel.mainState.observe(this, stateObserver)
