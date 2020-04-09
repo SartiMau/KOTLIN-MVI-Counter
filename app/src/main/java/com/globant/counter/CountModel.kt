@@ -1,4 +1,4 @@
-package com.globant.counter.mvvm.model
+package com.globant.counter
 
 class CountModel {
 

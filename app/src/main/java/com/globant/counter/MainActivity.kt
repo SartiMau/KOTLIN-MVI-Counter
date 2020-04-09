@@ -1,12 +1,10 @@
 package com.globant.counter
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
-import com.globant.counter.mvvm.viewmodel.MainActivityViewModel
-import com.globant.counter.mvvm.viewmodel.states.CounterData
-import com.globant.counter.mvvm.viewmodel.states.CounterState
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_main.countBtnDec
 import kotlinx.android.synthetic.main.activity_main.countBtnInc
 import kotlinx.android.synthetic.main.activity_main.countLabel
@@ -14,43 +12,45 @@ import kotlinx.android.synthetic.main.activity_main.resetBtn
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainActivityViewModel = MainActivityViewModel()
+    private lateinit var viewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        viewModel = ViewModelProviders.of(this)[MainActivityViewModel::class.java]
         viewModel.getValue().observe(this, Observer { updateUI(it) })
+
+        // Move to Data binding {
         initListeners()
+        viewModel.sendIntent(CounterIntent.InitialIntent)
+        // }
     }
 
+    // Move to Data binding {
     private fun initListeners() {
         countBtnInc.setOnClickListener {
-            viewModel.incValue()
+            viewModel.sendIntent(CounterIntent.IncrementIntent)
         }
         countBtnDec.setOnClickListener {
-            viewModel.decValue()
+            viewModel.sendIntent(CounterIntent.DecrementIntent)
         }
         resetBtn.setOnClickListener {
-            viewModel.resetValue()
+            viewModel.sendIntent(CounterIntent.ResetIntent)
         }
     }
+    // }
 
-    private fun updateUI(it: CounterData?) {
-        when (it?.state) {
-            CounterState.INITIAL -> {
-                countLabel.text = getString(R.string.txt_main_activity_starting_count_label_value)
-                showToast(getString(R.string.main_activity_toast_reset_text))
+    private fun updateUI(counterState: CounterState) {
+        // Move to Data binding {
+        countLabel.text = counterState.counterCurrentValue.toString()
+        // }
+        when (counterState.counterOperation) {
+            CounterOperation.INC -> showToast(getString(R.string.main_activity_toast_incremented_text))
+            CounterOperation.DEC -> showToast(getString(R.string.main_activity_toast_decremented_text))
+            CounterOperation.RST -> showToast(getString(R.string.main_activity_toast_reset_text))
+            else -> {
             }
-            CounterState.INC -> {
-                countLabel.text = it.value.toString()
-                showToast(getString(R.string.main_activity_toast_incremented_text))
-            }
-            CounterState.DEC -> {
-                countLabel.text = it.value.toString()
-                showToast(getString(R.string.main_activity_toast_decremented_text))
-            }
-            else -> countLabel.text = it?.value.toString()
         }
     }
 
