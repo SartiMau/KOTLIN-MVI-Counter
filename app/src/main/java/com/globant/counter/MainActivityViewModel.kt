@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 
 class MainActivityViewModel : ViewModel() {
 
-    private val mutableLiveData: MutableLiveData<CounterState> = MutableLiveData()
     private var initialized: Boolean = false
 
+    private val mutableLiveData: MutableLiveData<CounterState> = MutableLiveData()
     fun getValue(): MutableLiveData<CounterState> {
         return mutableLiveData
     }

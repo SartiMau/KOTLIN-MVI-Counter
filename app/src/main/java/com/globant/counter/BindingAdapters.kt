@@ -5,7 +5,7 @@ import androidx.databinding.BindingAdapter
 import com.globant.counter.CounterOperation
 import com.globant.counter.CounterState
 
-@BindingAdapter("text")
+@BindingAdapter("customText")
 fun TextView.bindText(state: CounterOperation?) {
     text = when(state) {
         CounterOperation.INC -> "👍"
