@@ -8,16 +8,16 @@ import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class MainActivityViewModelTest {
+class MainActivityPresenterTest {
 
-    @get:Rule var rule: TestRule = InstantTaskExecutorRule()
+    @get:Rule
+    var rule: TestRule = InstantTaskExecutorRule()
 
-    private val viewModel: MainActivityViewModel =
-            MainActivityViewModel()
+    private val presenter: MainActivityPresenter = MainActivityPresenter()
 
     @Test
     fun initialStateTest() {
-        assert(viewModel.getValue().value == null)
+        assert(presenter.mainState.value == null)
     }
 
     @Test
