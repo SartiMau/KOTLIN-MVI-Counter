@@ -1,6 +1,10 @@
-package com.globant.counter
+package com.globant.counter.presenter
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.globant.counter.CounterIntent
+import com.globant.counter.CounterOperation
+import com.globant.counter.CounterState
+import com.globant.counter.MainActivityPresenter
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
