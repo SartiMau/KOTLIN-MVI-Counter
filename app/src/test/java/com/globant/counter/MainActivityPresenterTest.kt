@@ -1,6 +1,7 @@
 package com.globant.counter
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -14,77 +15,78 @@ class MainActivityPresenterTest {
     var rule: TestRule = InstantTaskExecutorRule()
 
     private val presenter: MainActivityPresenter = MainActivityPresenter()
+    /**
+     * Testability —
+     * all we have to do to write the unit test for our app is call a proper business method and check if we’ve got a proper state.
+     *
+     **/
+
+    @Before
+    fun setup() {
+        presenter.takeIntent(CounterIntent.InitialIntent)
+    }
 
     @Test
     fun initialStateTest() {
-        assert(presenter.mainState.value == null)
+        val expectedState = CounterState(counterCurrentValue = ZERO, counterOperation = CounterOperation.INITIAL)
+        assert(presenter.mainState.value == expectedState)
     }
 
     @Test
     fun onPressResetAfterInitialStateTest() {
-//        viewModel.resetValue()
-//
-//        assert(viewModel.getValue().value != null)
-//        assert(viewModel.getValue().value?.state == CounterState.INITIAL)
-//        assert(viewModel.getValue().value?.value == ZERO)
+        val expectedState = CounterState(counterCurrentValue = ZERO, counterOperation = CounterOperation.INITIAL)
+
+        assert(expectedState == presenter.mainState.value)
     }
 
     @Test
     fun onPressResetAfterPressIncTest() {
-//        viewModel.incValue()
-//        viewModel.resetValue()
-//
-//        assert(viewModel.getValue().value != null)
-//        assert(viewModel.getValue().value?.state == CounterState.INITIAL)
-//        assert(viewModel.getValue().value?.value == ZERO)
+        val expectedState = CounterState(counterCurrentValue = ZERO, counterOperation = CounterOperation.INITIAL)
+        presenter.takeIntent(CounterIntent.IncrementIntent)
+        presenter.takeIntent(CounterIntent.ResetIntent)
+        assert(expectedState == presenter.mainState.value)
     }
 
     @Test
     fun onPressResetAfterPressDecTest() {
-//        viewModel.decValue()
-//        viewModel.resetValue()
-//
-//        assert(viewModel.getValue().value != null)
-//        assert(viewModel.getValue().value?.state == CounterState.INITIAL)
-//        assert(viewModel.getValue().value?.value == ZERO)
+        val expectedState = CounterState(counterCurrentValue = ZERO, counterOperation = CounterOperation.INITIAL)
+        presenter.takeIntent(CounterIntent.DecrementIntent)
+        presenter.takeIntent(CounterIntent.ResetIntent)
+        assert(expectedState == presenter.mainState.value)
     }
 
     @Test
     fun onPressIncAfterInitialStateTest() {
-//        viewModel.incValue()
-//
-//        assert(viewModel.getValue().value != null)
-//        assert(viewModel.getValue().value?.state == CounterState.INC)
-//        assert(viewModel.getValue().value?.value == ONE)
+        val expectedState = CounterState(counterCurrentValue = ONE, counterOperation = CounterOperation.INCREMENT)
+
+        presenter.takeIntent(CounterIntent.IncrementIntent)
+        assert(expectedState == presenter.mainState.value)
     }
 
     @Test
     fun onPressDecAfterInitialStateTest() {
-//        viewModel.decValue()
-//
-//        assert(viewModel.getValue().value != null)
-//        assert(viewModel.getValue().value?.state == CounterState.DEC)
-//        assert(viewModel.getValue().value?.value == MINUS_ONE)
+        val expectedState = CounterState(counterCurrentValue = MINUS_ONE, counterOperation = CounterOperation.DECREMENT)
+
+        presenter.takeIntent(CounterIntent.DecrementIntent)
+        assert(expectedState == presenter.mainState.value)
     }
 
     @Test
     fun onPressDecAfterPressIncTest() {
-//        viewModel.incValue()
-//        viewModel.decValue()
-//
-//        assert(viewModel.getValue().value != null)
-//        assert(viewModel.getValue().value?.state == CounterState.DEC)
-//        assert(viewModel.getValue().value?.value == ZERO)
+        val expectedState = CounterState(counterCurrentValue = ZERO, counterOperation = CounterOperation.DECREMENT)
+
+        presenter.takeIntent(CounterIntent.IncrementIntent)
+        presenter.takeIntent(CounterIntent.DecrementIntent)
+        assert(expectedState == presenter.mainState.value)
     }
 
     @Test
     fun onPressIncAfterPressDecTest() {
-//        viewModel.decValue()
-//        viewModel.incValue()
-//
-//        assert(viewModel.getValue().value != null)
-//        assert(viewModel.getValue().value?.state == CounterState.INC)
-//        assert(viewModel.getValue().value?.value == ZERO)
+        val expectedState = CounterState(counterCurrentValue = ZERO, counterOperation = CounterOperation.INCREMENT)
+
+        presenter.takeIntent(CounterIntent.DecrementIntent)
+        presenter.takeIntent(CounterIntent.IncrementIntent)
+        assert(expectedState == presenter.mainState.value)
     }
 
     companion object {

@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         binding.actor = actor
         binding.notifyPropertyChanged(BR.actor)
 
+        presenter.takeIntent(CounterIntent.InitialIntent)
         presenter.mainState.observe(this, Observer { updateUI(it) })
     }
 
