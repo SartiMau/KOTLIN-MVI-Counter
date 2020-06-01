@@ -1,8 +1,6 @@
-# MVVM Counter
-Simple MVVM example
-![alt tag](https://github.com/nicolbidone/KOTLIN-MVVM-Counter/blob/master/1.MVVM.png)
+
 ## Documentation
-- [MVVM References Document](https://docs.google.com/presentation/d/1JkepsjABKhOmQr7bc62mL8vd-3UqbyklceHfJn4K0rU/edit?usp=sharing)
+- [MVI References Document](https://docs.google.com/presentation/d/1PcPr-Saswu-AA8UdBlwPOVCOwfj3HH9XGdxgcyyQoy8/edit?usp=sharing)
 ## Example Image
 ![alt tag](https://github.com/nicolbidone/KOTLIN-MVVM-Counter/blob/master/2.CounterGif.gif)
 
